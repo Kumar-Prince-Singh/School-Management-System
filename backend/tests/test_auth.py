@@ -36,3 +36,4 @@ def test_get_current_user_me(client, seed_test_data):
     data = response.json()
     assert data["username"] == "teacher_a_test"
     assert data["role"] == "teacher"
+

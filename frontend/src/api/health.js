@@ -9,3 +9,4 @@ export const getReadyApi = async () => {
   const response = await api.get('/ready');
   return response.data;
 };
+

@@ -104,3 +104,4 @@ networks:
   school_network:
     name: school_network
     driver: bridge
+

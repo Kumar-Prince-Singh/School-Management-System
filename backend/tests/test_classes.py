@@ -40,3 +40,4 @@ def test_create_class_forbidden_for_teacher(client, seed_test_data):
 
     response = client.post("/api/classes", json=payload, headers=headers)
     assert response.status_code == 403
+

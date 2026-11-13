@@ -192,3 +192,4 @@ def get_attendance_record(
     if not att:
         raise HTTPException(status_code=404, detail="Attendance record not found")
     return build_attendance_response(att)
+

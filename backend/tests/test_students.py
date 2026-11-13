@@ -73,3 +73,4 @@ def test_delete_student_by_admin(client, seed_test_data):
     # Confirm deletion
     get_res = client.get(f"/api/students/{student_id}", headers=headers)
     assert get_res.status_code == 404
+

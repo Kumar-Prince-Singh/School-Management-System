@@ -572,3 +572,4 @@ The script stashes dirty working tree changes, checks out the previous stable Gi
 
 ### Candidate Verification Note
 This project was designed, implemented, containerized, and documented by **Prince Kumar** (Registration Number: **12314718**) for the **ALGIONS AI LABS PRIVATE LIMITED** DevOps & Cloud Engineering internship assessment. All student data and credentials provided in this repository are strictly synthetic.
+

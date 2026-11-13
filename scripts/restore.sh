@@ -69,3 +69,4 @@ else
     echo "[ERROR] Database restoration encountered an error!" >&2
     exit 1
 fi
+

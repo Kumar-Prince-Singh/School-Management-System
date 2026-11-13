@@ -171,3 +171,4 @@ def delete_class(
         ip_address=client_ip
     )
     return None
+

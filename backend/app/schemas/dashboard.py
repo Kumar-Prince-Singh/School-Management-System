@@ -44,3 +44,4 @@ class RecentAttendanceRecord(BaseModel):
     date: str
     session: str
     recorded_by: Optional[str] = None
+

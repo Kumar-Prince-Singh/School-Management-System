@@ -13,3 +13,4 @@ python -m app.seed || echo "[ENTRYPOINT] Seed step completed."
 
 echo "[ENTRYPOINT] Launching Uvicorn production server..."
 exec uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 2
+

@@ -85,3 +85,4 @@ sequenceDiagram
 - **External Interface:** Port `80` (HTTP) and Port `443` (HTTPS with TLS) exposed on Nginx.
 - **Internal Network:** Isolated Docker bridge network named `school_network`. The database (port 5432) and backend (port 8000) are intentionally **NOT** exposed directly to the public internet. All traffic must ingress through the Nginx reverse proxy.
 - **Persistent Storage:** Docker named volume `school_postgres_data` mapped to `/var/lib/postgresql/data` ensuring synthetic student and attendance records persist across container restarts and host reboots.
+

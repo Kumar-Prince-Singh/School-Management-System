@@ -1,4 +1,4 @@
-﻿# ==============================================================================
+# ==============================================================================
 # Service Rollback Script (PowerShell)
 # Project: Cloud Deployment & CI/CD – School Management Platform
 # Candidate: Prince Kumar (Reg: 12314718)
@@ -45,3 +45,4 @@ try {
     Write-Host "[CRITICAL] Health check probe failed post rollback: $_" -ForegroundColor Red
     exit 1
 }
+

@@ -78,3 +78,4 @@ backend/tests/test_students.py::test_delete_student_by_admin PASSED      [100%]
 
 ============================== 20 passed in 16.89s ==============================
 ```
+

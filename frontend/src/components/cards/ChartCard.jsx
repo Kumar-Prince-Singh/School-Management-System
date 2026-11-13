@@ -16,3 +16,4 @@ export const ChartCard = ({ title, subtitle, action, children }) => {
     </div>
   );
 };
+

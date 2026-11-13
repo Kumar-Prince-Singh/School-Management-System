@@ -54,3 +54,4 @@ When updating host configuration or rotating credentials:
 4. Apply system patches or Docker engine updates.
 5. Bring services back up: `docker compose up -d`.
 6. Inspect health probes: `curl http://localhost/ready`.
+

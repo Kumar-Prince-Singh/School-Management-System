@@ -26,3 +26,4 @@ class Attendance(Base):
     __table_args__ = (
         UniqueConstraint("student_id", "date", "session", name="uq_student_date_session"),
     )
+

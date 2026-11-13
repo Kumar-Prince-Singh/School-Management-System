@@ -47,3 +47,4 @@ def log_audit(
     )
 
     return audit_entry
+

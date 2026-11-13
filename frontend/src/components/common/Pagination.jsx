@@ -53,3 +53,4 @@ export const Pagination = ({ currentPage, totalPages, totalItems, pageSize, onPa
     </div>
   );
 };
+

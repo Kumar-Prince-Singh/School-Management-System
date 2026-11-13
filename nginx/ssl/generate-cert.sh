@@ -23,3 +23,4 @@ chmod 644 "${CERT_FILE}"
 echo "==> Successfully generated development certificate:"
 echo "    Certificate: ${CERT_FILE}"
 echo "    Private Key: ${KEY_FILE}"
+

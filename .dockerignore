@@ -11,3 +11,4 @@ frontend/dist
 *.db
 *.sqlite3
 .pytest_cache
+

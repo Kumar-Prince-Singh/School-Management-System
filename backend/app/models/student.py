@@ -21,3 +21,4 @@ class Student(Base):
     # Relationships
     class_assigned = relationship("ClassModel", back_populates="students")
     attendances = relationship("Attendance", back_populates="student", cascade="all, delete-orphan")
+

@@ -15,3 +15,4 @@ if (Get-Command openssl -ErrorAction SilentlyContinue) {
 } else {
     Write-Host "OpenSSL not detected. The Nginx Docker container automatically generates this certificate upon build." -ForegroundColor Yellow
 }
+

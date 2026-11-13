@@ -155,3 +155,4 @@ def get_recent_attendance(
             )
         )
     return results
+

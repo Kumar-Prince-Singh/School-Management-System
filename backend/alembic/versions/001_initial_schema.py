@@ -118,3 +118,4 @@ def downgrade() -> None:
     op.drop_table('students')
     op.drop_table('classes')
     op.drop_table('users')
+

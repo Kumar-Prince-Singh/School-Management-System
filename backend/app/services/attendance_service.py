@@ -142,3 +142,4 @@ def record_attendance_bulk(
     )
 
     return new_records
+

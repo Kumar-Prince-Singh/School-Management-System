@@ -48,3 +48,4 @@ else
     rm -f "${BACKUP_FILEPATH}"
     exit 1
 fi
+

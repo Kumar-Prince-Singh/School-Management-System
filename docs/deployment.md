@@ -94,3 +94,4 @@ To stop all services and **delete** all persistent volumes (fresh start):
 ```bash
 docker compose down -v
 ```
+

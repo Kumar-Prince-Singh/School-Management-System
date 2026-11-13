@@ -14,3 +14,4 @@ export const getAttendanceReportApi = async (params = {}) => {
   const response = await api.get('/api/attendance/report', { params });
   return response.data;
 };
+

@@ -24,3 +24,4 @@ export const deleteStudentApi = async (id) => {
   const response = await api.delete(`/api/students/${id}`);
   return response.data;
 };
+

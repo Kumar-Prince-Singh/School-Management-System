@@ -133,3 +133,4 @@ def test_5_duplicate_attendance_rejected(client, seed_test_data):
     res2 = client.post("/api/attendance", json=payload, headers=headers)
     assert res2.status_code == 409
     assert "Attendance already recorded" in res2.json()["detail"]
+

@@ -19,3 +19,4 @@ class ClassModel(Base):
     teacher = relationship("User", back_populates="assigned_classes")
     students = relationship("Student", back_populates="class_assigned", cascade="all, delete-orphan")
     attendances = relationship("Attendance", back_populates="class_ref", cascade="all, delete-orphan")
+

@@ -82,3 +82,4 @@ chmod +x scripts/rollback.sh
 2. Checks out the target Git commit or release tag.
 3. Triggers container rebuild and recreation (`docker compose down && docker compose up --build -d`).
 4. Awaits health convergence and queries `/health` to verify service readiness.
+

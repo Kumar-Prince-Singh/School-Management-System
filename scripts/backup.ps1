@@ -1,4 +1,4 @@
-﻿# ==============================================================================
+# ==============================================================================
 # Database Backup Script (PowerShell)
 # Project: Cloud Deployment & CI/CD – School Management Platform
 # Candidate: Prince Kumar (Reg: 12314718)
@@ -43,3 +43,4 @@ if (Test-Path $BackupFilePath) {
     Write-Host "[ERROR] Backup failed to generate file." -ForegroundColor Red
     exit 1
 }
+

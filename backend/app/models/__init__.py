@@ -6,3 +6,4 @@ from app.models.attendance import Attendance
 from app.models.audit_log import AuditLog
 
 __all__ = ["Base", "User", "ClassModel", "Student", "Attendance", "AuditLog"]
+

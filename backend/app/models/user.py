@@ -21,3 +21,4 @@ class User(Base):
     assigned_classes = relationship("ClassModel", back_populates="teacher", cascade="all, delete-orphan")
     recorded_attendances = relationship("Attendance", back_populates="recorded_by")
     audit_logs = relationship("AuditLog", back_populates="user")
+

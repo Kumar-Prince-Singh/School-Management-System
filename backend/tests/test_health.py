@@ -22,3 +22,4 @@ def test_root_endpoint(client):
     assert data["status"] == "operational"
     assert data["candidate"] == "Prince Kumar"
     assert data["company"] == "ALGIONS AI LABS PRIVATE LIMITED"
+

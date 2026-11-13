@@ -223,3 +223,4 @@ def delete_student(
         ip_address=client_ip
     )
     return None
+

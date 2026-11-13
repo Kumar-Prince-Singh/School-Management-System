@@ -1,4 +1,4 @@
-﻿# ==============================================================================
+# ==============================================================================
 # Database Restore Script (PowerShell)
 # Project: Cloud Deployment & CI/CD – School Management Platform
 # Candidate: Prince Kumar (Reg: 12314718)
@@ -48,3 +48,4 @@ Write-Host " [SUCCESS] Database Restored Successfully!" -ForegroundColor Green
 Write-Host " Verifying student record count..." -ForegroundColor Green
 docker exec -t $ContainerName psql -U $DbUser -d $DbName -c "SELECT COUNT(*) AS total_students FROM students;"
 Write-Host "======================================================================" -ForegroundColor Green
+

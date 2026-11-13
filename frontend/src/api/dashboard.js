@@ -24,3 +24,4 @@ export const getRecentAttendanceApi = async (limit = 8) => {
   const response = await api.get('/api/dashboard/recent-attendance', { params: { limit } });
   return response.data;
 };
+

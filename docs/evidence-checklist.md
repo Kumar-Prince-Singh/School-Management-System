@@ -86,3 +86,4 @@ evidence/
     3. Container Build & Docker Compose Verification
 - **What to Capture:** Screenshot of the green checkmark pipeline summary.
 - **Target Folder:** `evidence/01_cicd_pipeline/github_actions_green.png`
+

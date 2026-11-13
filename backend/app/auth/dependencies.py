@@ -60,3 +60,4 @@ def require_role(allowed_roles: list[str]):
 # Role helper dependencies
 require_admin = require_role(["admin"])
 require_teacher_or_admin = require_role(["admin", "teacher"])
+
