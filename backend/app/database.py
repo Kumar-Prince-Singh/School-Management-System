@@ -14,8 +14,7 @@ if raw_db_url.startswith("postgresql://") and not raw_db_url.startswith("postgre
 else:
     database_url = raw_db_url
 
-# Handle SQLite vs PostgreSQL connect arguments
-connect_args = {}
+# Handle SQLite vs PostgreSQL connect arguments with automatic fallback
 if database_url.startswith("sqlite"):
     connect_args = {"check_same_thread": False}
     engine = create_engine(
@@ -24,13 +23,30 @@ if database_url.startswith("sqlite"):
         echo=False
     )
 else:
-    engine = create_engine(
-        database_url,
-        pool_pre_ping=True,
-        pool_size=10,
-        max_overflow=20,
-        echo=False
-    )
+    try:
+        candidate_engine = create_engine(
+            database_url,
+            pool_pre_ping=True,
+            pool_size=10,
+            max_overflow=20,
+            echo=False
+        )
+        # Test connection immediately
+        with candidate_engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
+        engine = candidate_engine
+        logger.info("Successfully connected to PostgreSQL engine.")
+    except Exception as e:
+        logger.warning(
+            f"PostgreSQL not reachable ({e}). "
+            f"Using local SQLite database (school.db) for local standalone execution."
+        )
+        fallback_url = "sqlite:///./school.db"
+        engine = create_engine(
+            fallback_url,
+            connect_args={"check_same_thread": False},
+            echo=False
+        )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
@@ -62,4 +78,4 @@ def init_db():
         Base.metadata.create_all(bind=engine)
         logger.info("Database schema initialized successfully.")
     except Exception as e:
-        logger.warning(f"Database schema auto-creation skipped or deferred: {e}")
+        logger.warning(f"Database schema auto-creation skipped: {e}")

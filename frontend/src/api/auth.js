@@ -13,3 +13,14 @@ export const getMeApi = async () => {
   return response.data;
 };
 
+export const registerApi = async ({ username, email, full_name, password, role }) => {
+  const response = await api.post('/api/auth/register', {
+    username,
+    email,
+    full_name,
+    password,
+    role,
+  });
+  return response.data;
+};
+
