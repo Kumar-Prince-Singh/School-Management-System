@@ -1,7 +1,7 @@
+
 databases:
   - name: school-postgres
     databaseName: school_db
-    user: postgres
     plan: free
     region: oregon
 
