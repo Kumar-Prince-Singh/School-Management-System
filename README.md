@@ -19,16 +19,17 @@
 8. [Database Design](#8-database-design)
 9. [API Documentation](#9-api-documentation)
 10. [Local Setup Instructions](#10-local-setup-instructions)
-11. [Docker Deployment Instructions](#11-docker-deployment-instructions)
-12. [Environment Variable Configuration](#12-environment-variable-configuration)
-13. [Demo Account Credentials](#13-demo-account-credentials)
-14. [CI/CD Workflow Explanation](#14-cicd-workflow-explanation)
-15. [Testing Instructions](#15-testing-instructions)
-16. [Monitoring and Troubleshooting](#16-monitoring-and-troubleshooting)
-17. [Backup and Restore Instructions](#17-backup-and-restore-instructions)
-18. [Rollback Instructions](#18-rollback-instructions)
-19. [Known Limitations](#19-known-limitations)
-20. [Future Improvements](#20-future-improvements)
+11. [Cloud Deployment: Render (Backend) & Vercel (Frontend)](#11-cloud-deployment-render-backend--vercel-frontend)
+12. [Docker Deployment Instructions](#12-docker-deployment-instructions)
+13. [Environment Variable Configuration](#13-environment-variable-configuration)
+14. [Demo Account Credentials](#14-demo-account-credentials)
+15. [CI/CD Workflow Explanation](#15-cicd-workflow-explanation)
+16. [Testing Instructions](#16-testing-instructions)
+17. [Monitoring and Troubleshooting](#17-monitoring-and-troubleshooting)
+18. [Backup and Restore Instructions](#18-backup-and-restore-instructions)
+19. [Rollback Instructions](#19-rollback-instructions)
+20. [Known Limitations](#20-known-limitations)
+21. [Future Improvements](#21-future-improvements)
 
 ---
 
@@ -355,41 +356,89 @@ erDiagram
 
 ## 10. Local Setup Instructions
 
-### Backend Local Run:
+The application can be run locally without requiring Docker or a running PostgreSQL server. If PostgreSQL is not detected, the backend automatically falls back to an embedded SQLite database (`school.db`) pre-seeded with all demo accounts and records.
+
+### Prerequisites:
+- Python 3.11+
+- Node.js 18+ & npm
+
+---
+
+### Step 1: Start the FastAPI Backend
+
+#### Windows (PowerShell):
+```powershell
+# 1. Create and activate virtual environment (if not already created)
+python -m venv backend\venv
+.\backend\venv\Scripts\Activate.ps1
+
+# 2. Install dependencies
+pip install -r backend\requirements.txt
+
+# 3. (Optional) Seed database with demo accounts (idempotent)
+python -m app.seed
+
+# 4. Launch backend development server on port 8000
+python -m uvicorn app.main:app --app-dir backend --reload --host 127.0.0.1 --port 8000
+```
+
+#### Linux / macOS (Bash):
 ```bash
 # 1. Create and activate virtual environment
-python -m venv backend/venv
-# Windows
-backend\venv\Scripts\activate
-# Linux/macOS
+python3 -m venv backend/venv
 source backend/venv/bin/activate
 
 # 2. Install dependencies
 pip install -r backend/requirements.txt
 
-# 3. Seed synthetic database
-python -m app.seed
+# 3. (Optional) Seed database with demo accounts
+PYTHONPATH=backend python -m app.seed
 
-# 4. Launch development server
-uvicorn app.main:app --reload --port 8000
+# 4. Launch backend development server
+uvicorn app.main:app --app-dir backend --reload --host 127.0.0.1 --port 8000
 ```
 
-### Frontend Local Run:
+* Backend Swagger API Documentation: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+* Health Check: [http://127.0.0.1:8000/health](http://127.0.0.1:8000/health)
+
+---
+
+### Step 2: Start the React Frontend
+
+Open a new terminal window:
+
 ```bash
-# 1. Enter frontend folder
+# 1. Enter the frontend directory
 cd frontend
 
-# 2. Install dependencies
+# 2. Install npm dependencies
 npm install
 
 # 3. Launch Vite development server
 npm run dev
 ```
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+* Frontend UI: [http://localhost:5173](http://localhost:5173)
+
+The Vite development server is pre-configured to automatically proxy `/api`, `/health`, and `/ready` requests to the FastAPI backend at `http://127.0.0.1:8000`.
 
 ---
 
-## 11. Docker Deployment Instructions
+## 11. Cloud Deployment: Render (Backend) & Vercel (Frontend)
+
+For full step-by-step production instructions on deploying this project with **FastAPI + PostgreSQL on Render** and **React SPA on Vercel**, see the dedicated guide:
+
+👉 **[DEPLOYMENT_RENDER_VERCEL.md](DEPLOYMENT_RENDER_VERCEL.md)**
+
+### Key Highlights of Cloud Configuration:
+- **CORS Handling:** The backend dynamically allows Vercel subdomains via `CORS_ORIGIN_REGEX=r"^https:\/\/.*\.vercel\.app$"` and custom origins via `CORS_ORIGINS`.
+- **Database Normalization:** Automatically adapts Render's `postgres://` connection string to SQLAlchemy's required `postgresql+psycopg2://` driver format.
+- **Client-Side Routing:** Contains `vercel.json` rewrites to guarantee React Router routes (`/dashboard`, `/attendance`, `/classes`) do not return 404 errors on page reload.
+- **1-Click Render Blueprint:** Includes `render.yaml` for instant infrastructure-as-code provisioning on Render.
+
+---
+
+## 12. Docker Deployment Instructions
 
 To spin up the entire 4-tier infrastructure with a single command:
 
@@ -412,7 +461,7 @@ Access the web application at **[http://localhost](http://localhost)** or **[htt
 
 ---
 
-## 12. Environment Variable Configuration
+## 13. Environment Variable Configuration
 
 Copy `.env.example` to `.env`:
 ```bash
@@ -424,7 +473,7 @@ cp .env.example .env
 | `POSTGRES_USER` | PostgreSQL superuser username | `postgres` |
 | `POSTGRES_PASSWORD` | PostgreSQL database password | `postgres` |
 | `POSTGRES_DB` | PostgreSQL database name | `school_db` |
-| `DATABASE_URL` | SQLAlchemy connection string | `postgresql+psycopg2://postgres:postgres@localhost:5432/school_db` |
+| `DATABASE_URL` | SQLAlchemy connection string | `sqlite:///./school.db` (local fallback) |
 | `SECRET_KEY` | Secret key for signing JWT tokens | `algions-devops-secret-key-super-secure-2026-production` |
 | `ACCESS_TOKEN_EXPIRE_MINUTES` | JWT token validity window | `1440` (24 hours) |
 | `ENVIRONMENT` | Deployment environment mode | `production` |
@@ -432,7 +481,7 @@ cp .env.example .env
 
 ---
 
-## 13. Demo Account Credentials
+## 14. Demo Account Credentials
 
 For technical evaluation, four pre-configured synthetic accounts are seeded into the database:
 
@@ -447,7 +496,7 @@ For technical evaluation, four pre-configured synthetic accounts are seeded into
 
 ---
 
-## 14. CI/CD Workflow Explanation
+## 15. CI/CD Workflow Explanation
 
 The repository includes a production-grade GitHub Actions pipeline at `.github/workflows/ci.yml`.
 
@@ -473,7 +522,7 @@ The repository includes a production-grade GitHub Actions pipeline at `.github/w
 
 ---
 
-## 15. Testing Instructions
+## 16. Testing Instructions
 
 Execute the automated test suite locally:
 
@@ -496,7 +545,7 @@ pytest backend/tests -v -W ignore::DeprecationWarning
 
 ---
 
-## 16. Monitoring and Troubleshooting
+## 17. Monitoring and Troubleshooting
 
 - **Liveness Probe:** `GET /health` returns application uptime, service name, and version.
 - **Readiness Probe:** `GET /ready` returns active PostgreSQL connection status (`healthy: true`), memory usage (RSS MB), and process PID.
@@ -512,7 +561,7 @@ Refer to [`docs/troubleshooting.md`](docs/troubleshooting.md) for step-by-step r
 
 ---
 
-## 17. Backup and Restore Instructions
+## 18. Backup and Restore Instructions
 
 ### To Run a Database Backup:
 ```bash
@@ -536,7 +585,7 @@ Asks for interactive user confirmation to avoid accidental overwriting, streams 
 
 ---
 
-## 18. Rollback Instructions
+## 19. Rollback Instructions
 
 When an issue occurs following a deployment:
 
@@ -552,7 +601,7 @@ The script stashes dirty working tree changes, checks out the previous stable Gi
 
 ---
 
-## 19. Known Limitations
+## 20. Known Limitations
 
 1. **Self-Signed SSL Certificates:** The local HTTPS certificate is self-signed for demonstration. In a public cloud deployment, a trusted Certificate Authority (e.g. Let's Encrypt with Certbot or AWS Certificate Manager) should be utilized.
 2. **Synchronous Single-Host Backups:** The backup script stores snapshots on the host filesystem. In cloud production, backups should be replicated to object storage (e.g., AWS S3 or Google Cloud Storage) with lifecycle retention policies.
@@ -560,7 +609,7 @@ The script stashes dirty working tree changes, checks out the previous stable Gi
 
 ---
 
-## 20. Future Improvements
+## 21. Future Improvements
 
 1. **Kubernetes (K8s) Helm Charts:** Package the platform as a Helm chart with Horizontal Pod Autoscaling (HPA) and cert-manager ingress.
 2. **Prometheus & Grafana Telemetry:** Expose `/metrics` endpoint with Prometheus metrics (request count, p99 latency, error rates) and a Grafana dashboard.

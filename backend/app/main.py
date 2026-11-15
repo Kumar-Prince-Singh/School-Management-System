@@ -38,13 +38,21 @@ app = FastAPI(
 )
 
 # CORS configuration
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+cors_kwargs = {
+    "allow_methods": ["*"],
+    "allow_headers": ["*"],
+}
+
+if "*" in settings.CORS_ORIGINS:
+    cors_kwargs["allow_origins"] = ["*"]
+    cors_kwargs["allow_credentials"] = False
+else:
+    cors_kwargs["allow_origins"] = settings.CORS_ORIGINS
+    cors_kwargs["allow_credentials"] = True
+    if settings.CORS_ORIGIN_REGEX:
+        cors_kwargs["allow_origin_regex"] = settings.CORS_ORIGIN_REGEX
+
+app.add_middleware(CORSMiddleware, **cors_kwargs)
 
 
 # Structured Request/Response Logging Middleware

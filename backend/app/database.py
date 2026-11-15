@@ -6,10 +6,12 @@ from app.config import settings
 
 logger = logging.getLogger("school_platform")
 
-raw_db_url = settings.DATABASE_URL
+raw_db_url = settings.DATABASE_URL or "sqlite:///./school.db"
 
-# Normalize postgresql:// to postgresql+psycopg2:// for SQLAlchemy 2.0
-if raw_db_url.startswith("postgresql://") and not raw_db_url.startswith("postgresql+"):
+# Normalize postgres:// and postgresql:// to postgresql+psycopg2:// for SQLAlchemy 2.0
+if raw_db_url.startswith("postgres://"):
+    database_url = raw_db_url.replace("postgres://", "postgresql+psycopg2://", 1)
+elif raw_db_url.startswith("postgresql://") and not raw_db_url.startswith("postgresql+"):
     database_url = raw_db_url.replace("postgresql://", "postgresql+psycopg2://", 1)
 else:
     database_url = raw_db_url
